@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ayush Portfolio</title>
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
@@ -15,10 +15,10 @@
         <input type="checkbox" name="" class="checkBtn"/>
         <ol class="center">
             <a href="#"><li>HOME</li></a>
-            <a href="#"><li>ABOUT ME</li></a>
+            <a href="#about"><li>ABOUT ME</li></a>
             <a href="#"><li>PORTFOLIO</li></a>
-            <a href="#"><li>PROJECTS</li></a>
-            <a href="#"><li>HIRE ME</li></a>
+            <a href="#project"><li>PROJECTS</li></a>
+            <a href="#contact"><li>HIRE ME</li></a>
         </ol>
     </header>
     <div class="darkMode">
@@ -41,7 +41,57 @@
             <img src="images/boy2.png" class="boy">
         </div>
     </section>
-    <div class="container">
+    <hr>
+    <section class="about" id="about">
+        <center>
+            <h1>About Me</h1>
+        </center>
+        <center>
+            <p>I am a self-taught Mobile App Developer and Data Science enthusiast. I love solving problems with mobile apps that have a great balance of simple design & good functionality. I am currently pursuing my 3rd year B.Tech in CSE branch at SIT, Pune(2019-23). Currently looking for an internship to build experience and improve my skills. Always open to learn new things and develop a healthy balance between academics and extracurricular activities.</p>
+        </center>
+         
+    </section>
+    <hr>
+    <center>
+            <h1 class="pro" id="project">Projects</h1>
+    </center>
+    <section class="project">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card">
+                <img src="images/main.jpg" alt="">
+                <div class="content">
+                    <h2>Grocery List</h2>
+                    <p>This android application will help you to remember all the things that you want to buy jst by displaying the list of items you have enterd in the list. One can easily add / remove an item from the list jst by clicking on the icon. Better UI.</p>
+                    <a href="https://github.com/undiscovered-genius/Grocery-List">Github</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card">
+                <img src="images/main.jpg" alt="">
+                <div class="content">
+                    <h2>Heading</h2>
+                    <p>Info</p>
+                    <a href="#">Github</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card">
+                <img src="images/main.jpg" alt="">
+                <div class="content">
+                    <h2>Heading</h2>
+                    <p>Info</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section class="contact" id="contact">
+        <center>
+            <h1>Contact Me</h1>
+        </center>
+         <div class="container">
             <a href="https://www.linkedin.com/in/-ayush-kumar-singh/" class="icon">
                 <i class="fab fa-linkedin fa-3x"></i>
             </a>
@@ -54,7 +104,8 @@
             <a href="https://www.instagram.com/undiscovered__genius_/" class="icon">
                 <i class="fab fa-instagram fa-3x"></i>
             </a>
-        </div> 
+        </div>
+    </section>
     <footer class="footer">
         
         <!-- <div class="container"> -->
@@ -64,5 +115,6 @@
         <!-- </div> -->
     </footer>
     <script src="main.js"></script>
+    <!-- <script src="js/bootstrap.js"></script> -->
 </body>
 </html>
