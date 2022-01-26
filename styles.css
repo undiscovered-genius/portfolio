@@ -306,11 +306,15 @@ span{
 
 .project{
     width: 85%;
-    height: 550px;
+    /*height: 550px;*/
     /*height: 80%;*/
     margin: 0 auto;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    /*align-items: center;*/
+    justify-content: center;
+    place-items: center;
     position: relative;
     margin-bottom: 50px;
 }
@@ -332,6 +336,12 @@ span{
     margin-top: 50px;
 }
 
+.grid{
+    /*margin: 10px;*/
+    /*background: black;*/
+    padding: 20px;
+}
+
 .card{
     width: 350px;
     height: 250px;
@@ -341,6 +351,9 @@ span{
     border-color: var(--color);
     cursor: pointer;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.123);
+
+    margin: auto;
+    margin-bottom: 20px;
 }
 
 .card img{
@@ -373,6 +386,12 @@ span{
 
 .card:hover .content{
     height: 235px;
+}
+
+.card h4{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 1.5em;
 }
 
 .content a{
@@ -570,6 +589,12 @@ span{
         /*margin: auto;*/
         margin-right: 10%;
     }
+
+    .project{
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        margin: auto;
+    }
 }
 
 @media (max-width: 950px){
@@ -616,6 +641,11 @@ span{
         flex-direction: row-reverse;
     }
 */
+    .project{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        margin: auto;
+    }
 }
 
 @media (max-width: 600px){
@@ -648,6 +678,12 @@ span{
     .main{
         display: flex;
         flex-direction: row-reverse;
+    }
+
+    .project{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        margin: auto;
     }
 }
 
@@ -686,5 +722,10 @@ span{
     .main{
         display: flex;
         flex-direction: row-reverse;
+    }
+
+    .project{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
     }
 }
