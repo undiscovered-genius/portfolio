@@ -3,8 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Ayush Kumar Singh — Data Engineer</title>
 <meta name="description" content="Ayush Kumar Singh, a Data Engineer building real-time and batch data platforms for fintech.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='16'%20fill='%23ff9f1c'/%3E%3Ctext%20x='32'%20y='43'%20font-size='30'%20font-weight='800'%20text-anchor='middle'%20fill='%231c1330'%20font-family='Arial%2Csans-serif'%3EAS%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#ff9f1c">
+<link rel="canonical" href="https://undiscovered-genius.github.io/portfolio/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ayush Kumar Singh">
+<meta property="og:title" content="Ayush Kumar Singh — Data Engineer">
+<meta property="og:description" content="Ayush Kumar Singh, a Data Engineer building real-time and batch data platforms for fintech.">
+<meta property="og:url" content="https://undiscovered-genius.github.io/portfolio/">
+<meta property="og:image" content="https://undiscovered-genius.github.io/portfolio/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ayush Kumar Singh — Data Engineer">
+<meta name="twitter:description" content="Ayush Kumar Singh, a Data Engineer building real-time and batch data platforms for fintech.">
+<meta name="twitter:image" content="https://undiscovered-genius.github.io/portfolio/images/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -81,16 +97,49 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 8
 .job ul{padding-left:20px;color:var(--muted)}
 .job li{margin-bottom:6px}
 .job li b{color:var(--ink)}
+.hero .status{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);color:var(--ink);font:500 15px/1.4 var(--body);padding:8px 18px;border-radius:20px;margin-bottom:22px}
+.dot{flex:none;width:10px;height:10px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.skill{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px 20px}
+.skill h4{font:700 17px var(--display);margin-bottom:10px}
+.skill .chips li{font-size:14px;padding:5px 12px}
+.life{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.play{display:flex;flex-direction:column;gap:14px}
+.play-top{display:flex;gap:16px;align-items:center}
+.play-top span{color:var(--muted)}
+.pbtn{flex:none;width:56px;height:56px;border-radius:50%;border:2px solid var(--ink);background:var(--accent);color:var(--accent-ink);font-size:20px;cursor:pointer;display:grid;place-items:center}
+.pbtn:hover{transform:translateY(-2px)}
+.yt-wrap{width:100%;height:204px;border-radius:16px;overflow:hidden;background:#000}
+.yt-wrap iframe{width:100%;height:100%;display:block;border:0}
+.play-actions{display:flex;gap:10px;flex-wrap:wrap}
+.pill{font:500 14px var(--body);display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer;text-decoration:none}
+.pill:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .role{border-top:1px dashed var(--line);margin-top:16px;padding-top:16px}
 .role-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 16px;margin-bottom:8px}
 .role-head h4{font:700 19px var(--display)}
 .role-head time{color:var(--muted);font-weight:500}
 .role-sub{color:var(--muted);font-weight:500;margin-bottom:10px}
+.feature{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px}
+.feature:hover{border-color:var(--ink)}
+.feature h3{font-size:26px;margin:8px 0 10px}
+.feature p{color:var(--muted);max-width:60ch;margin-bottom:14px}
+.feature .tag{color:var(--accent);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .proj{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;gap:10px}
 .proj p{color:var(--muted);flex:1;font-size:16px}
 .proj .chips li{font-size:13px;padding:4px 12px}
 .proj a{font-weight:700}
+.quotes{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:18px}
+.quote{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:16px}
+.quote::before{content:"\201C";font:800 64px/0.6 var(--display);color:var(--accent);height:28px}
+.quote blockquote p{color:var(--ink);font-size:16px}
+.quote blockquote p+p{margin-top:10px}
+.who{display:flex;align-items:center;gap:12px;margin-top:auto}
+.who .av{flex:none;width:46px;height:46px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:2px solid var(--ink);display:grid;place-items:center;font:700 16px var(--display)}
+.who a{font-weight:700;text-decoration:none}
+.who a:hover{text-decoration:underline}
+.who small{display:block;color:var(--muted);line-height:1.35;font-size:14px}
 .award{margin-top:18px;background:var(--accent);color:var(--accent-ink);border:2px solid var(--ink);border-radius:24px;padding:22px 26px;display:flex;gap:16px;align-items:center}
 .award i{font-size:30px}
 
@@ -106,7 +155,7 @@ footer.foot a{text-decoration:none;font-weight:500}
 
 .chat-fab{position:fixed;right:20px;bottom:20px;z-index:60;width:60px;height:60px;border-radius:50%;border:2px solid var(--ink);background:var(--accent);color:var(--accent-ink);font-size:24px;cursor:pointer;display:grid;place-items:center}
 .chat-fab:hover{transform:translateY(-2px)}
-.chat{position:fixed;right:20px;bottom:92px;z-index:60;width:min(360px,calc(100vw - 40px));height:min(500px,calc(100vh - 120px));background:var(--card);border:2px solid var(--ink);border-radius:24px;display:flex;flex-direction:column;overflow:hidden}
+.chat{position:fixed;right:20px;bottom:92px;z-index:60;width:min(360px,calc(100vw - 40px));height:min(580px,calc(100vh - 120px));background:var(--card);border:2px solid var(--ink);border-radius:24px;display:flex;flex-direction:column;overflow:hidden}
 .chat-top{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700}
 .chat-top img{width:36px;height:36px;border-radius:50%;object-fit:cover;background:var(--accent)}
 .chat-top small{display:block;font-weight:400;color:var(--muted);line-height:1.2}
@@ -116,7 +165,9 @@ footer.foot a{text-decoration:none;font-weight:500}
 .msg.out{background:#0a84ff;color:#fff;align-self:flex-end;border-bottom-right-radius:6px}
 .msg a{font-weight:700}
 .quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
-.quick button{font:500 13px var(--body);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.quick:empty{display:none}
+.quick button{flex:none;white-space:nowrap;font:500 13px var(--body);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.quick button.main{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
 .quick button:hover{background:var(--accent);color:var(--accent-ink)}
 .chat-form{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
 .chat-form input{flex:1;min-width:0;font:400 15px var(--body);padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
@@ -128,13 +179,14 @@ footer.foot a{text-decoration:none;font-weight:500}
   .b-bio,.b-loc,.b-edu,.b-now{grid-column:span 6}
   .grid{grid-template-columns:1fr 1fr}
   .tools .ico.soc{display:none}
+  .skills,.life{grid-template-columns:1fr}
 }
 @media (max-width:600px){
   .grid{grid-template-columns:1fr}
   .filters button{padding:8px 12px}
   .btn.sm{display:none}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}.dot{animation:none}}
 </style>
 </head>
 <body>
@@ -161,6 +213,7 @@ footer.foot a{text-decoration:none;font-weight:500}
 <section class="hero" id="home">
   <div class="wrap">
     <div>
+      <div class="status"><span class="dot"></span>Open to Data Engineer roles · Remote, hybrid or on-site</div>
       <h1>Hi, I'm Ayush. I build data pipelines that keep fintech running.</h1>
       <p>Data Engineer in Pune with 3.5+ years of experience in real-time streaming, AWS lakehouses and AI agents that work on top of company data.</p>
       <div class="cta">
@@ -207,16 +260,58 @@ footer.foot a{text-decoration:none;font-weight:500}
     <h3 class="sub">Achievements</h3>
     <div class="award"><i class="fas fa-trophy"></i><div><b>Super Heroes Award, Bajaj Broking.</b> Recognised for consistently exceeding expectations and delivering exceptional value.</div></div>
 
-    <h3 class="sub">Tools I use</h3>
-    <ul class="chips big">
-      <li>Python</li><li>PySpark</li><li>SQL</li><li>Apache Kafka</li><li>AWS</li><li>Apache Hudi</li><li>Apache Iceberg</li><li>Spark</li><li>Grafana</li><li>Elasticsearch</li><li>Docker</li><li>Go</li>
-    </ul>
-    <p style="margin:14px 0 0;color:var(--muted)">Also: Glue, S3, Athena, Lambda, KMS, Fluentd, MSSQL, PostgreSQL, MongoDB, Redis, Power BI, Microsoft Fabric, TensorFlow, PyTorch, Scikit-learn.</p>
+    <h3 class="sub">What colleagues say</h3>
+    <div class="quotes">
+      <figure class="quote">
+        <blockquote>
+          <p>I had the pleasure of working with Ayush on multiple projects, and he consistently impressed me with his strong data engineering skills and problem-solving mindset. He’s reliable, detail-oriented, and always ready to support the team.</p>
+          <p>One of his key contributions was optimizing a critical data pipeline, which significantly improved performance. Ayush is a great team player and brings real value to any project he’s part of. I highly recommend him.</p>
+        </blockquote>
+        <figcaption class="who">
+          <span class="av" aria-hidden="true">HY</span>
+          <div>
+            <a href="https://www.linkedin.com/in/harish-yarlagadda/" target="_blank" rel="noopener">Harish Yarlagadda</a>
+            <small>AI Decision Scientist, Accenture Strategy &amp; Consulting<br>Former colleague, Data Engineer at Bajaj Broking</small>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">Skills</h3>
+    <div class="skills">
+      <div class="skill"><h4>Data Engineering &amp; Streaming</h4><ul class="chips"><li>Apache Kafka</li><li>Change Data Capture (CDC)</li><li>Real-time streaming pipelines</li><li>Batch pipelines</li><li>Data modeling</li></ul></div>
+      <div class="skill"><h4>AWS &amp; Cloud</h4><ul class="chips"><li>AWS</li><li>S3</li><li>Glue</li><li>Lambda</li><li>API Gateway</li><li>SNS</li><li>Athena</li><li>KMS</li><li>IAM</li><li>EventBridge</li></ul></div>
+      <div class="skill"><h4>Lakehouse &amp; Frameworks</h4><ul class="chips"><li>Apache Hudi</li><li>Apache Iceberg</li><li>Apache Spark</li><li>Parquet</li><li>Docker</li><li>Jupyter</li></ul></div>
+      <div class="skill"><h4>Databases</h4><ul class="chips"><li>MSSQL</li><li>MySQL</li><li>PostgreSQL</li><li>MongoDB</li><li>Elasticsearch</li><li>Redis</li></ul></div>
+      <div class="skill"><h4>Languages</h4><ul class="chips"><li>Python</li><li>PySpark</li><li>Go</li><li>R</li></ul></div>
+      <div class="skill"><h4>Machine Learning &amp; AI</h4><ul class="chips"><li>AI agents</li><li>Microsoft Fabric agent</li><li>TensorFlow</li><li>PyTorch</li><li>Scikit-learn</li><li>Keras</li><li>XGBoost</li><li>Deep learning</li></ul></div>
+      <div class="skill"><h4>Monitoring &amp; Tools</h4><ul class="chips"><li>Grafana</li><li>Fluentd</li><li>Elasticsearch</li><li>NGINX</li><li>Git</li></ul></div>
+      <div class="skill"><h4>Soft Skills</h4><ul class="chips"><li>Cross-functional collaboration</li><li>Problem solving</li><li>Stakeholder communication</li><li>Technical leadership</li></ul></div>
+    </div>
 
     <h3 class="sub">Where I've worked and studied</h3>
     <ul class="chips big">
       <li><i class="fas fa-building"></i>&nbsp; Bajaj Broking</li><li><i class="fas fa-building"></i>&nbsp; Persistent Systems</li><li><i class="fas fa-graduation-cap"></i>&nbsp; Symbiosis Institute of Technology</li>
     </ul>
+
+    <h3 class="sub">When I'm not building pipelines</h3>
+    <div class="life">
+      <div class="box">
+        <h3>Off the clock</h3>
+        <ul class="chips"><li>🎮 PC and PS5 games</li><li>⚡ Harry Potter books</li><li>⚽ Football</li><li>🏸 Badminton</li></ul>
+      </div>
+      <div class="box play">
+        <div class="play-top">
+          <button class="pbtn" id="p-toggle" type="button" aria-label="Play a random song"><i class="fas fa-play"></i></button>
+          <div><b>Gaane</b><br><span id="np" aria-live="polite">My playlist on YouTube Music. Play it while you scroll. Press play for a random song from my playlist.</span></div>
+        </div>
+        <div class="yt-wrap" id="yt-wrap" hidden><div id="yt"></div></div>
+        <div class="play-actions">
+          <button class="pill" id="p-next" type="button" hidden><i class="fas fa-random"></i> Another song</button>
+          <a class="pill" href="https://music.youtube.com/playlist?list=PLw92K5MHyi9FZ7uSeS-VPALfrCvuWwRyI" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Open playlist</a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -260,6 +355,17 @@ footer.foot a{text-decoration:none;font-weight:500}
         </ul>
       </article>
     </div>
+
+    <h3 class="sub">Featured article</h3>
+    <a class="feature" href="articles/cdc-to-lakehouse.html">
+      <div>
+        <span class="tag">Data engineering · 5 min read</span>
+        <h3>Streaming database changes into a lakehouse with CDC</h3>
+        <p>A general overview of how Debezium, Kafka and a lakehouse keep heavy reads off your production database.</p>
+        <ul class="chips"><li>CDC</li><li>Debezium</li><li>Kafka</li><li>Parquet</li><li>Apache Iceberg</li></ul>
+      </div>
+      <span class="btn sm">Read article</span>
+    </a>
 
     <h3 class="sub">Projects</h3>
     <div class="grid">
@@ -331,20 +437,29 @@ tbtn.addEventListener('click', () => {
 
 // Chat assistant (scripted, no server needed)
 const MAIL='mailto:ayushksingh7@gmail.com', PDF='data/Ayush_Kumar_Singh_-_DE.pdf';
-const MENU=['Experience','Skills','Projects','Resume','Contact'];
+const MENU=['Availability','Experience','Skills','Projects','Article','Testimonial','Hobbies','Music','Resume','Contact'];
 const replies=[
- [/resume|cv/,{t:"Here's Ayush's resume.",a:[PDF,'Open PDF']}],
- [/hire|contact|email|reach|mail|talk/,{t:"The best way to reach Ayush is email.",a:[MAIL,'ayushksingh7@gmail.com']}],
- [/project|built|github|app/,{t:"Ayush has built an AR quiz app, a heart disease predictor, a Covid tracker, Quizone and more. All of it is on GitHub.",a:['https://github.com/undiscovered-genius','View GitHub']}],
- [/skill|tool|tech|stack|language|python|aws|kafka/,{t:"Python, PySpark, SQL, Kafka and CDC, AWS (Glue, S3, Athena), Hudi, Iceberg, Spark, Grafana, Elasticsearch and Docker."}],
- [/experience|work|job|career|bajaj|intern|role|persistent|senior/,{t:"Ayush joined Bajaj Broking in Jan 2023 as a Data Engineer Intern, became a Data Engineer in Jul 2023 and a Senior Data Engineer in Aug 2025. In summer 2022 he did an internship at Persistent Systems."}],
+ [/resume|\bcv\b/,{t:"Here's Ayush's resume.",a:[PDF,'Open PDF']}],
+ [/article|blog|cdc|debezium|wrote|writing/,{t:"Ayush wrote a short general article on streaming database changes into a lakehouse with CDC.",a:['articles/cdc-to-lakehouse.html','Read article']}],
+ [/open to|available|availab|remote|hybrid|on-?site|office|relocat|notice|opportunit|looking for|hiring/,{t:"Ayush is open to Data Engineer roles: remote, hybrid or on-site. For details like notice period or relocation, email him directly.",a:[MAIL,'ayushksingh7@gmail.com']}],
+ [/linkedin/,{t:"Here's Ayush on LinkedIn.",a:['https://www.linkedin.com/in/-ayush-kumar-singh/','Open LinkedIn']}],
+ [/hire|contact|email|reach|mail|talk|connect/,{t:"The best way to reach Ayush is email.",a:[MAIL,'ayushksingh7@gmail.com']}],
+ [/testimonial|recommend|colleague|reference|feedback|say about|says about/,{t:"A former colleague, Harish Yarlagadda (AI Decision Scientist at Accenture Strategy & Consulting), recommends Ayush for his strong data engineering skills, reliability and problem solving. The full note is in the About section."}],
+ [/music|song|playlist|gaane|listen/,{t:"Ayush's playlist, Gaane, is in the About section. Press play there for a random song."}],
+ [/hobb|free time|outside work|\bfun\b|\bgam(e|es|ing|er)\b|ps5|harry|potter|reading|books?|football|badminton|sports?|\bplay/,{t:"Outside work, Ayush plays PC and PS5 games, reads Harry Potter books, and plays football and badminton."}],
+ [/working on|currently|right now|these days|learning/,{t:"Right now he's working on Copilot agents in Microsoft Fabric that answer questions from Power BI data, real-time CDC pipelines on Kafka, and AI agents that monitor ETL pipelines on AWS."}],
+ [/project|github|\bapps?\b|built/,{t:"Ayush has built an AR quiz app, a heart disease predictor, a Covid tracker, Quizone and more. All of it is on GitHub.",a:['https://github.com/undiscovered-genius','View GitHub']}],
+ [/skill|tool|tech|stack|language|python|aws|cloud|kafka|spark|database|sql/,{t:"Streaming: Kafka and CDC. Cloud: AWS (S3, Glue, Lambda, Athena). Lakehouse: Hudi, Iceberg, Spark, Parquet. Databases: MSSQL, MySQL, PostgreSQL, MongoDB, Elasticsearch, Redis. Languages: Python, PySpark, Go, R. AI: agents, TensorFlow, PyTorch. Monitoring: Grafana, Fluentd. The full list is in the Skills section."}],
+ [/experience|work|job|career|bajaj|intern|role|persistent|martian|senior/,{t:"Ayush joined Bajaj Broking in Jan 2023 as a Data Engineer Intern, became a Data Engineer in Jul 2023 and a Senior Data Engineer in Aug 2025. In summer 2022 he did an internship at Persistent Systems through the Martian Summer Internship Program."}],
  [/\bai\b|agent|copilot|fabric/,{t:"He built a Copilot agent in Microsoft Fabric that answers questions from Power BI data with row-level security, and an AI agent on AWS that monitors ETL pipelines."}],
- [/education|college|study|degree|university/,{t:"B.Tech in Computer Science and Engineering with Honours in Data Science from Symbiosis Institute of Technology, 2019 to 2023."}],
- [/award|achievement|recogni/,{t:"Ayush received the Super Heroes Award at Bajaj Broking for consistently exceeding expectations."}],
- [/where|location|live|pune|city/,{t:"Ayush is based in Pune, India."}],
- [/\b(hi|hii|hello|hey)\b/,{t:"Hii! You can ask me about Ayush's work, skills or projects."}]
+ [/education|college|study|degree|university|honours|honors/,{t:"B.Tech in Computer Science and Engineering from Symbiosis Institute of Technology, 2019 to 2023, with Honours in Data Science."}],
+ [/award|achievement|recogni|super hero/,{t:"Ayush received the Super Heroes Award at Bajaj Broking for consistently exceeding expectations."}],
+ [/where|location|live|pune|city|based/,{t:"Ayush is based in Pune, India, and open to remote, hybrid or on-site roles."}],
+ [/thank|thanks|bye|awesome|great|cool/,{t:"You're welcome{name}! Ask me anything else about Ayush, or email him if you'd like to talk."}],
+ [/who is|who's|who are|tell me about|introduce|about ayush|about him|yourself/,{t:"Ayush is a Senior Data Engineer at Bajaj Broking in Pune. He builds real-time and batch data platforms, AWS lakehouses and AI agents for fintech."}],
+ [/\b(hi|hii|hello|hey)\b/,{t:"Hii{name}! You can ask me about Ayush's work, skills, projects, his article or what he does outside work."}]
 ];
-const fallback={t:"I'm a small scripted assistant and didn't catch that. Try a button below, or email Ayush directly.",a:[MAIL,'Email Ayush']};
+const fallback={t:"Sorry{name}, I'm a small scripted assistant and didn't catch that. Try a button below, or email Ayush directly.",a:[MAIL,'Email Ayush']};
 const chatEl=document.getElementById('chat'), fab=document.getElementById('chat-fab'), log=document.getElementById('chat-log'),
       cform=document.getElementById('chat-form'), cinput=document.getElementById('chat-input'), quick=document.getElementById('quick');
 let step=0, visitor='';
@@ -357,7 +472,7 @@ function add(text,cls,link){
 function say(text,link){ setTimeout(()=>add(text,'in',link),450); }
 function setQuick(labels){
   quick.replaceChildren();
-  labels.forEach(l=>{ const b=document.createElement('button'); b.type='button'; b.textContent=l; b.onclick=()=>send(l); quick.append(b); });
+  labels.forEach(l=>{ const b=document.createElement('button'); b.type='button'; b.textContent=l; if(l==='Availability') b.className='main'; b.onclick=()=>send(l); quick.append(b); });
 }
 function cleanName(t){
   const w=t.replace(/^(hi|hii|hello|hey)[,!\s]*/i,'').replace(/^(my name is|i am|i'm|im|it's|its|this is|call me)\s+/i,'')
@@ -369,12 +484,12 @@ function send(text){
   if(step===0){ step=1; setQuick([]); say("What's your name?"); return; }
   if(step===1){
     visitor=cleanName(text); step=2;
-    say('Nice to have you here'+(visitor?', '+visitor:'')+"! Enjoy the portfolio! You can ask me about Ayush's work, skills or projects.");
+    say('Nice to have you here'+(visitor?', '+visitor:'')+"! Enjoy the portfolio! You can ask me about Ayush's work, skills, projects, his article or what he does outside work.");
     setTimeout(()=>setQuick(MENU),450);
     return;
   }
   const hit=replies.find(r=>r[0].test(text.toLowerCase())); const r=hit?hit[1]:fallback;
-  say(r.t,r.a);
+  say(r.t.replace('{name}',visitor?', '+visitor:''),r.a);
 }
 function toggleChat(open){
   chatEl.hidden=!open; fab.setAttribute('aria-expanded',open);
@@ -387,6 +502,63 @@ function toggleChat(open){
 fab.addEventListener('click',()=>toggleChat(chatEl.hidden));
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!chatEl.hidden) toggleChat(false); });
 cform.addEventListener('submit',e=>{ e.preventDefault(); const q=cinput.value.trim(); if(q){ cinput.value=''; send(q); } });
+
+// Random song from my YouTube playlist (loads the YouTube player only after the first click)
+const PLAYLIST_ID='PLw92K5MHyi9FZ7uSeS-VPALfrCvuWwRyI';
+const pToggle=document.getElementById('p-toggle'), pNext=document.getElementById('p-next'),
+      np=document.getElementById('np'), ytWrap=document.getElementById('yt-wrap');
+let yt=null, ytReady=false, ytLoading=false, wantPlay=false, tries=0, errs=0, last=-1, shuffled=false, title='';
+const setBtn=(icon,label)=>{ pToggle.innerHTML='<i class="fas fa-'+icon+'"></i>'; pToggle.setAttribute('aria-label',label); };
+
+function fail(){
+  np.textContent = location.protocol==='file:'
+    ? "The player needs the page to be opened from a web address, not as a local file. Use Open playlist for now."
+    : "Couldn't play the playlist here. Use Open playlist instead.";
+  setBtn('play','Play a random song'); ytWrap.hidden=true; ytLoading=false; ytReady=false; yt=null;
+}
+function loadYT(){
+  if(ytLoading) return; ytLoading=true;
+  np.textContent='Loading…'; ytWrap.hidden=false;
+  window.onYouTubeIframeAPIReady=()=>{
+    yt=new YT.Player('yt',{
+      height:'204', width:'100%',
+      playerVars:Object.assign({listType:'playlist', list:PLAYLIST_ID, playsinline:1, rel:0}, location.protocol.startsWith('http')?{origin:location.origin}:{}),
+      events:{ onReady:()=>{ ytReady=true; if(wantPlay) pickRandom(); }, onStateChange:onState, onError:onErr }
+    });
+  };
+  const tag=document.createElement('script'); tag.src='https://www.youtube.com/iframe_api'; tag.onerror=fail; document.head.appendChild(tag);
+}
+function pickRandom(){
+  const ids=yt.getPlaylist();
+  if(!ids||!ids.length){ if(++tries<15) return setTimeout(pickRandom,400); return fail(); }
+  let i; do{ i=Math.floor(Math.random()*ids.length); }while(ids.length>1&&i===last);
+  last=i; yt.playVideoAt(i);
+  setTimeout(()=>{ const st=yt&&yt.getPlayerState&&yt.getPlayerState(); if(st===-1||st===5) np.textContent='Tap the play button to start.'; },3000);
+}
+function onState(e){
+  const S=YT.PlayerState;
+  if(e.data===S.PLAYING){
+    title=(yt.getVideoData().title)||'';
+    np.textContent='Now playing: '+title; setBtn('pause','Pause'); pNext.hidden=false; errs=0;
+    if(!shuffled){ shuffled=true; yt.setShuffle(true); }   // later songs are random too
+  } else if(e.data===S.PAUSED){
+    np.textContent='Paused: '+title; setBtn('play','Resume');
+  }
+}
+function onErr(e){
+  if(e&&e.data===153){ fail(); return; }   // player configuration error: trying other songs won't help
+  // most often: this song's owner doesn't allow embedding. Try another one.
+  if(++errs<=3){ np.textContent="That song can't play here, trying another…"; return pickRandom(); }
+  fail();
+}
+pToggle.addEventListener('click',()=>{
+  if(!yt||!ytReady){ wantPlay=true; loadYT(); return; }
+  const st=yt.getPlayerState();
+  if(st===YT.PlayerState.PLAYING) yt.pauseVideo();
+  else if(st===YT.PlayerState.PAUSED) yt.playVideo();
+  else pickRandom();
+});
+pNext.addEventListener('click',()=>{ errs=0; pickRandom(); });
 </script>
 </body>
 </html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Streaming database changes into a lakehouse with CDC | Ayush Kumar Singh</title>
+<meta name="description" content="A general overview of how Change Data Capture, Debezium, Kafka and a lakehouse keep heavy reads off your production database.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='16'%20fill='%23ff9f1c'/%3E%3Ctext%20x='32'%20y='43'%20font-size='30'%20font-weight='800'%20text-anchor='middle'%20fill='%231c1330'%20font-family='Arial%2Csans-serif'%3EAS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Streaming database changes into a lakehouse with CDC">
+<meta property="og:description" content="A general overview of how Change Data Capture, Debezium, Kafka and a lakehouse keep heavy reads off your production database.">
+<meta property="og:url" content="https://undiscovered-genius.github.io/portfolio/articles/cdc-to-lakehouse.html">
+<meta property="og:image" content="https://undiscovered-genius.github.io/portfolio/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#efeaf7;--card:#fbf9ff;--ink:#1c1330;--muted:#5d5473;--line:#d9d0ea;--accent:#ff9f1c;--accent-ink:#1c1330;--chip:#e4dcf3;--display:'Bricolage Grotesque',system-ui,sans-serif;--body:'DM Sans',system-ui,sans-serif}
+:root[data-theme="dark"]{--bg:#0f1424;--card:#182036;--ink:#f1eefb;--muted:#a9a4c2;--line:#2a3452;--accent:#ffb347;--chip:#222c48}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 18px/1.7 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.top{display:flex;justify-content:space-between;align-items:center;width:min(820px,92%);margin:0 auto;padding:22px 0}
+.top a{font-weight:700;text-decoration:none}
+.top a:hover{text-decoration:underline}
+#theme{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:16px}
+main{width:min(820px,92%);margin:0 auto;padding:16px 0 72px}
+.kicker{color:var(--accent);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:14px}
+h1{font:800 clamp(34px,6vw,54px)/1.08 var(--display);letter-spacing:-.02em;margin:10px 0 20px}
+h2{font:700 clamp(24px,3.5vw,30px)/1.2 var(--display);margin:48px 0 14px}
+p{margin-bottom:16px;color:var(--muted)}
+.lead{font-size:20px;color:var(--ink)}
+.byline{font-size:15px;margin-bottom:32px}
+strong{color:var(--ink)}
+ol,ul{padding-left:24px;color:var(--muted);margin-bottom:16px}
+li{margin-bottom:12px}
+.diagram{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin:8px 0 8px}
+.diagram svg{display:block;min-width:760px;width:100%;height:auto}
+.cap{font-size:14px;text-align:center}
+.n{fill:var(--card);stroke:var(--ink);stroke-width:2}
+.n.acc{fill:var(--accent)}
+.a{stroke:var(--ink);stroke-width:2;fill:none}
+.ah{fill:var(--ink)}
+.t1{font:700 15px var(--display);fill:var(--ink)}
+.t2{font:400 12.5px var(--body);fill:var(--muted)}
+.acc-t1{font:700 15px var(--display);fill:#1c1330}
+.acc-t2{font:400 12.5px var(--body);fill:#1c1330}
+pre{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;overflow-x:auto;font:400 15px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--ink);margin-bottom:16px}
+.note{margin-top:56px;padding:18px 22px;border:1px dashed var(--line);border-radius:16px;font-size:15px}
+.note p{margin:0}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="top">
+  <a href="../index.html#work">&larr; Back to portfolio</a>
+  <button id="theme" aria-label="Toggle dark mode">&#9790;</button>
+</div>
+<main>
+<article>
+  <p class="kicker">Data engineering &middot; 5 min read</p>
+  <h1>Streaming database changes into a lakehouse with CDC</h1>
+  <p class="lead">Reading straight from a production database is convenient, and production databases do not like it. Change Data Capture (CDC) is a well-known fix: instead of repeatedly asking the database for data, you listen to the changes it already records and stream them somewhere else. This is a general overview of one common way to build that.</p>
+  <p class="byline">By Ayush Kumar Singh, Data Engineer</p>
+
+  <h2>The problem</h2>
+  <p>Reports and other consumers often query the same transactional database that serves the application. Heavy scans compete with real traffic, queries slow down for everyone, and every new consumer adds more load. Copying the data over on a nightly schedule helps, but then every consumer works with yesterday's data.</p>
+
+  <h2>The pattern at a glance</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 1120 320" role="img" aria-label="Diagram: a source database feeds a Debezium connector, which publishes to Kafka topics. Python consumers read the topics and write append-only tables to Parquet on S3 and updated tables to Iceberg on S3. Downstream consumers read from the lake.">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
+      <g class="a" marker-end="url(#ar)">
+        <path d="M160 160H198"/><path d="M350 160H388"/><path d="M540 160H578"/>
+        <path d="M730 160H750V75H768"/><path d="M730 160H750V240H768"/>
+        <path d="M920 75H945V140H968"/><path d="M920 240H945V180H968"/>
+      </g>
+      <g text-anchor="middle">
+        <rect class="n" x="10" y="125" width="150" height="70" rx="14"/><text class="t1" x="85" y="153">Source database</text><text class="t2" x="85" y="174">CDC enabled</text>
+        <rect class="n" x="200" y="125" width="150" height="70" rx="14"/><text class="t1" x="275" y="153">Debezium</text><text class="t2" x="275" y="174">in a Docker container</text>
+        <rect class="n" x="390" y="125" width="150" height="70" rx="14"/><text class="t1" x="465" y="153">Kafka</text><text class="t2" x="465" y="174">one topic per table</text>
+        <rect class="n" x="580" y="125" width="150" height="70" rx="14"/><text class="t1" x="655" y="153">Python consumers</text><text class="t2" x="655" y="174">on EC2, micro-batches</text>
+        <rect class="n acc" x="770" y="40" width="150" height="70" rx="14"/><text class="acc-t1" x="845" y="68">Parquet on S3</text><text class="acc-t2" x="845" y="89">append-only tables</text>
+        <rect class="n acc" x="770" y="205" width="150" height="70" rx="14"/><text class="acc-t1" x="845" y="233">Iceberg on S3</text><text class="acc-t2" x="845" y="254">tables with updates</text>
+        <rect class="n" x="970" y="100" width="140" height="120" rx="14"/><text class="t1" x="1040" y="156">Downstream</text><text class="t1" x="1040" y="178">consumers</text>
+      </g>
+    </svg>
+  </div>
+  <p class="cap">Simplified architecture. Names are generic.</p>
+
+  <ol>
+    <li><strong>Capture changes at the source.</strong> Turn on CDC in the source database (SQL Server has a built-in feature for this). It records every insert, update and delete for the tables you choose. A Debezium connector, running in a Docker container as a Kafka Connect connector, reads those change records, so your applications never run extra queries against the business tables.</li>
+    <li><strong>Publish to Kafka, one topic per table.</strong> Each change becomes an event on a topic named after its table. Separate topics keep streams isolated, let different consumers read at their own pace, and make it possible to replay from an earlier point.</li>
+    <li><strong>Consume with Python and write in micro-batches.</strong> Python consumers running on an EC2 instance read the topics, group events into small batches by time or by count, and write each batch to the lake. Batching gives you fewer, larger files and far better throughput than writing event by event, at the cost of a little latency.</li>
+    <li><strong>Pick the storage format by how the table changes.</strong> Append-only data, such as event logs, goes to Parquet files on S3: simple, fast and cheap. Data that gets updated goes to Apache Iceberg tables, which support upserts (MERGE) and give you a consistent, versioned view of the table.</li>
+    <li><strong>Read from the lake, not the database.</strong> Downstream consumers query the lake, so the production database can concentrate on its own job.</li>
+  </ol>
+
+  <h2>What a change event looks like</h2>
+  <p>Debezium wraps every change in an envelope. Here is a simplified version (not valid JSON, since it has comments):</p>
+<pre>{
+  "op": "u",          // c = create, u = update, d = delete
+  "ts_ms": "...",     // when the change happened
+  "before": { ... },  // the row before the change (empty for inserts)
+  "after":  { ... },  // the row after the change (empty for deletes)
+  "source": { "table": "...", "position": "..." }
+}</pre>
+  <p>The <code>op</code> field tells the consumer what to do: append the row, merge it into the table, or apply a delete.</p>
+
+  <h2>Design choices and trade-offs</h2>
+  <ul>
+    <li><strong>Micro-batches or single events.</strong> Small batches keep latency low, bigger batches give better throughput and fewer files. You tune the batch size or interval against how fresh the data needs to be.</li>
+    <li><strong>Parquet or Iceberg.</strong> Iceberg handles updates properly but adds overhead, so use it only where rows actually change and keep plain Parquet for append-only data.</li>
+    <li><strong>Ordering.</strong> Kafka only guarantees order within a partition. Key events by the row's primary key so changes to the same row are applied in order.</li>
+    <li><strong>Duplicates and replays.</strong> Delivery is at-least-once, so the same event can arrive twice. Commit Kafka offsets only after the write succeeds, and make writes safe to repeat.</li>
+    <li><strong>Deletes.</strong> Decide whether a delete removes the row from the lake or marks it as deleted. Keeping a flag preserves history, and removing it saves space.</li>
+  </ul>
+
+  <h2>What to watch out for</h2>
+  <ul>
+    <li><strong>Lag.</strong> Track consumer lag and the delay from the source change to the lake, and alert when it grows.</li>
+    <li><strong>Schema changes.</strong> Columns will be added sooner or later. Plan for schema evolution so a new column doesn't break the consumers.</li>
+    <li><strong>Small files.</strong> Frequent micro-batches create many small files, so schedule compaction.</li>
+    <li><strong>The starting point.</strong> CDC gives you changes, not history. Take an initial snapshot of each table before you start streaming.</li>
+    <li><strong>Retention.</strong> How long Kafka keeps data decides how far back you can replay.</li>
+  </ul>
+
+  <h2>Wrapping up</h2>
+  <p>CDC turns the database's own record of changes into a stream you can build on. The details vary with every stack, but the ideas carry across most designs: capture from the database's change records, stream by table, batch the writes, choose storage by change pattern, and read from the lake.</p>
+
+  <div class="note"><p>This is a general, simplified overview of a common pattern. It doesn't describe any employer's internal systems.</p></div>
+</article>
+</main>
+<script>
+const root=document.documentElement, btn=document.getElementById('theme');
+let saved=null; try{saved=localStorage.getItem('theme');}catch(e){}
+function apply(d){root.setAttribute('data-theme',d?'dark':'light'); btn.innerHTML=d?'&#9728;':'&#9790;';}
+apply(saved?saved==='dark':matchMedia('(prefers-color-scheme: dark)').matches);
+btn.addEventListener('click',()=>{const d=root.getAttribute('data-theme')!=='dark'; apply(d); try{localStorage.setItem('theme',d?'dark':'light');}catch(e){}});
+</script>
+</body>
+</html>
