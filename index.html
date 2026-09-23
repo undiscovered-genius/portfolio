@@ -120,11 +120,13 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 8
 .role-head h4{font:700 19px var(--display)}
 .role-head time{color:var(--muted);font-weight:500}
 .role-sub{color:var(--muted);font-weight:500;margin-bottom:10px}
-.feature{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px}
+.articles-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.feature{display:flex;flex-direction:column;justify-content:space-between;gap:16px;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px}
 .feature:hover{border-color:var(--ink)}
-.feature h3{font-size:26px;margin:8px 0 10px}
-.feature p{color:var(--muted);max-width:60ch;margin-bottom:14px}
+.feature h3{font-size:22px;margin:8px 0 10px}
+.feature p{color:var(--muted);margin-bottom:14px}
 .feature .tag{color:var(--accent);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+.feature .btn{align-self:flex-start}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .proj{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;gap:10px}
 .proj p{color:var(--muted);flex:1;font-size:16px}
@@ -178,6 +180,7 @@ footer.foot a{text-decoration:none;font-weight:500}
   .photo{max-width:320px}
   .b-bio,.b-loc,.b-edu,.b-now{grid-column:span 6}
   .grid{grid-template-columns:1fr 1fr}
+  .articles-grid{grid-template-columns:1fr}
   .tools .ico.soc{display:none}
   .skills,.life{grid-template-columns:1fr}
 }
@@ -356,8 +359,9 @@ footer.foot a{text-decoration:none;font-weight:500}
       </article>
     </div>
 
-    <h3 class="sub">Featured article</h3>
-    <a class="feature" href="articles/cdc-to-lakehouse.html">
+    <h3 class="sub">Articles</h3>
+    <div class="articles-grid">
+    <a class="feature" href="articles/cdc-to-lakehouse.html" target="_blank" rel="noopener">
       <div>
         <span class="tag">Data engineering · 5 min read</span>
         <h3>Streaming database changes into a lakehouse with CDC</h3>
@@ -366,14 +370,24 @@ footer.foot a{text-decoration:none;font-weight:500}
       </div>
       <span class="btn sm">Read article</span>
     </a>
+    <a class="feature" href="articles/table-formats.html" target="_blank" rel="noopener">
+      <div>
+        <span class="tag">Data engineering &middot; 6 min read</span>
+        <h3>Parquet vs Iceberg vs Hudi: picking a table format</h3>
+        <p>What an open table format adds over plain files, how Iceberg and Hudi differ, and a simple guide to picking one.</p>
+        <ul class="chips"><li>Parquet</li><li>Apache Iceberg</li><li>Apache Hudi</li><li>Lakehouse</li></ul>
+      </div>
+      <span class="btn sm">Read article</span>
+    </a>
+    </div>
 
     <h3 class="sub">Projects</h3>
     <div class="grid">
+      <article class="proj"><h3>Real-time Data Streaming Pipeline</h3><p>End-to-end streaming pipeline: Airflow schedules the fetching of mock user data from a public API, Kafka streams it, Spark processes it in real time and writes it to Cassandra. Everything runs in Docker.</p><ul class="chips"><li>Airflow</li><li>Kafka</li><li>Spark</li><li>Cassandra</li><li>Docker</li></ul><a href="https://github.com/undiscovered-genius/Realtime_Data_Streaming_Project1" target="_blank" rel="noopener">View on GitHub</a></article>
       <article class="proj"><h3>AR Quiz</h3><p>Quiz app that uses face tracking to lock answer options based on the player's facial movements.</p><ul class="chips"><li>Python</li><li>Flutter</li><li>MediaPipe</li></ul></article>
       <article class="proj"><h3>Heart Disease Prediction</h3><p>Android app with an ML model that predicts heart disease risk at 81.9% accuracy and gives health tips.</p><ul class="chips"><li>Android</li><li>ML</li></ul><a href="https://github.com/undiscovered-genius/Heart-Disease-Prediction-App" target="_blank" rel="noopener">View on GitHub</a></article>
       <article class="proj"><h3>Covid Tracker</h3><p>Daily cases, recoveries and vaccination stats for India and the world, plus vaccination centres with open slots.</p><ul class="chips"><li>Android</li><li>REST APIs</li></ul><a href="https://github.com/undiscovered-genius/Covid-Tracker" target="_blank" rel="noopener">View on GitHub</a></article>
       <article class="proj"><h3>Quizone</h3><p>Web platform for running secure, interactive online assessments for institutions and companies.</p><ul class="chips"><li>Web</li></ul><a href="https://github.com/undiscovered-genius/Quizone-Web-App" target="_blank" rel="noopener">View on GitHub</a></article>
-      <article class="proj"><h3>Music Dash</h3><p>Music player that lists the audio files on your device, with play, pause, next and previous.</p><ul class="chips"><li>Android</li></ul><a href="https://github.com/undiscovered-genius/Music-Dash" target="_blank" rel="noopener">View on GitHub</a></article>
       <article class="proj"><h3>Akshaya Patra Donation App</h3><p>Donation app with Razorpay payment integration.</p><ul class="chips"><li>Android</li><li>Razorpay</li></ul><a href="https://github.com/undiscovered-genius/Akshaya-Patra-Donation-App" target="_blank" rel="noopener">View on GitHub</a></article>
     </div>
     <p style="margin-top:16px"><a href="https://github.com/undiscovered-genius" target="_blank" rel="noopener"><b>See all repositories on GitHub</b></a></p>
@@ -440,7 +454,7 @@ const MAIL='mailto:ayushksingh7@gmail.com', PDF='data/Ayush_Kumar_Singh_-_DE.pdf
 const MENU=['Availability','Experience','Skills','Projects','Article','Testimonial','Hobbies','Music','Resume','Contact'];
 const replies=[
  [/resume|\bcv\b/,{t:"Here's Ayush's resume.",a:[PDF,'Open PDF']}],
- [/article|blog|cdc|debezium|wrote|writing/,{t:"Ayush wrote a short general article on streaming database changes into a lakehouse with CDC.",a:['articles/cdc-to-lakehouse.html','Read article']}],
+ [/article|blog|cdc|debezium|wrote|writing|iceberg|hudi|table format/,{t:"Ayush wrote two short articles: one on streaming database changes into a lakehouse with CDC, and one comparing Parquet, Iceberg and Hudi table formats.",a:['articles/cdc-to-lakehouse.html','Read article']}],
  [/open to|available|availab|remote|hybrid|on-?site|office|relocat|notice|opportunit|looking for|hiring/,{t:"Ayush is open to Data Engineer roles: remote, hybrid or on-site. For details like notice period or relocation, email him directly.",a:[MAIL,'ayushksingh7@gmail.com']}],
  [/linkedin/,{t:"Here's Ayush on LinkedIn.",a:['https://www.linkedin.com/in/-ayush-kumar-singh/','Open LinkedIn']}],
  [/hire|contact|email|reach|mail|talk|connect/,{t:"The best way to reach Ayush is email.",a:[MAIL,'ayushksingh7@gmail.com']}],
@@ -448,7 +462,7 @@ const replies=[
  [/music|song|playlist|gaane|listen/,{t:"Ayush's playlist, Gaane, is in the About section. Press play there for a random song."}],
  [/hobb|free time|outside work|\bfun\b|\bgam(e|es|ing|er)\b|ps5|harry|potter|reading|books?|football|badminton|sports?|\bplay/,{t:"Outside work, Ayush plays PC and PS5 games, reads Harry Potter books, and plays football and badminton."}],
  [/working on|currently|right now|these days|learning/,{t:"Right now he's working on Copilot agents in Microsoft Fabric that answer questions from Power BI data, real-time CDC pipelines on Kafka, and AI agents that monitor ETL pipelines on AWS."}],
- [/project|github|\bapps?\b|built/,{t:"Ayush has built an AR quiz app, a heart disease predictor, a Covid tracker, Quizone and more. All of it is on GitHub.",a:['https://github.com/undiscovered-genius','View GitHub']}],
+ [/project|github|\bapps?\b|built/,{t:"Ayush has built a real-time data streaming pipeline (Airflow, Kafka, Spark, Cassandra), an AR quiz app, a heart disease predictor, a Covid tracker, Quizone and more. All of it is on GitHub.",a:['https://github.com/undiscovered-genius','View GitHub']}],
  [/skill|tool|tech|stack|language|python|aws|cloud|kafka|spark|database|sql/,{t:"Streaming: Kafka and CDC. Cloud: AWS (S3, Glue, Lambda, Athena). Lakehouse: Hudi, Iceberg, Spark, Parquet. Databases: MSSQL, MySQL, PostgreSQL, MongoDB, Elasticsearch, Redis. Languages: Python, PySpark, Go, R. AI: agents, TensorFlow, PyTorch. Monitoring: Grafana, Fluentd. The full list is in the Skills section."}],
  [/experience|work|job|career|bajaj|intern|role|persistent|martian|senior/,{t:"Ayush joined Bajaj Broking in Jan 2023 as a Data Engineer Intern, became a Data Engineer in Jul 2023 and a Senior Data Engineer in Aug 2025. In summer 2022 he did an internship at Persistent Systems through the Martian Summer Internship Program."}],
  [/\bai\b|agent|copilot|fabric/,{t:"He built a Copilot agent in Microsoft Fabric that answers questions from Power BI data with row-level security, and an AI agent on AWS that monitors ETL pipelines."}],

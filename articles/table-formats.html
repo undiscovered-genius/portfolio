@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parquet vs Iceberg vs Hudi: picking a table format | Ayush Kumar Singh</title>
+<meta name="description" content="What an open table format adds over plain files, how Iceberg and Hudi differ, and a simple guide to picking one.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='16'%20fill='%23ff9f1c'/%3E%3Ctext%20x='32'%20y='43'%20font-size='30'%20font-weight='800'%20text-anchor='middle'%20fill='%231c1330'%20font-family='Arial%2Csans-serif'%3EAS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Parquet vs Iceberg vs Hudi: picking a table format">
+<meta property="og:description" content="What an open table format adds over plain files, how Iceberg and Hudi differ, and a simple guide to picking one.">
+<meta property="og:url" content="https://undiscovered-genius.github.io/portfolio/articles/table-formats.html">
+<meta property="og:image" content="https://undiscovered-genius.github.io/portfolio/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#efeaf7;--card:#fbf9ff;--ink:#1c1330;--muted:#5d5473;--line:#d9d0ea;--accent:#ff9f1c;--accent-ink:#1c1330;--chip:#e4dcf3;--display:'Bricolage Grotesque',system-ui,sans-serif;--body:'DM Sans',system-ui,sans-serif}
+:root[data-theme="dark"]{--bg:#0f1424;--card:#182036;--ink:#f1eefb;--muted:#a9a4c2;--line:#2a3452;--accent:#ffb347;--chip:#222c48}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 18px/1.7 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.top{display:flex;justify-content:space-between;align-items:center;width:min(820px,92%);margin:0 auto;padding:22px 0}
+.top a{font-weight:700;text-decoration:none}
+.top a:hover{text-decoration:underline}
+#theme{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:16px}
+main{width:min(820px,92%);margin:0 auto;padding:16px 0 72px}
+.kicker{color:var(--accent);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:14px}
+h1{font:800 clamp(34px,6vw,54px)/1.08 var(--display);letter-spacing:-.02em;margin:10px 0 20px}
+h2{font:700 clamp(24px,3.5vw,30px)/1.2 var(--display);margin:48px 0 14px}
+p{margin-bottom:16px;color:var(--muted)}
+.lead{font-size:20px;color:var(--ink)}
+.byline{font-size:15px;margin-bottom:32px}
+strong{color:var(--ink)}
+ol,ul{padding-left:24px;color:var(--muted);margin-bottom:16px}
+li{margin-bottom:12px}
+table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:15px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 14px var(--display);color:var(--ink);background:var(--card)}
+td{color:var(--muted)}
+td strong{color:var(--ink)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;margin-bottom:24px}
+.tbl-wrap table{margin-bottom:0}
+.guide{display:grid;gap:12px;margin-bottom:16px}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-size:15.5px}
+.rule b{color:var(--ink)}
+.rule .arrow{color:var(--accent);font-weight:700;margin:0 6px}
+.note{margin-top:56px;padding:18px 22px;border:1px dashed var(--line);border-radius:16px;font-size:15px}
+.note p{margin:0}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="top">
+  <a href="../index.html#work">&larr; Back to portfolio</a>
+  <button id="theme" aria-label="Toggle dark mode">&#9790;</button>
+</div>
+<main>
+<article>
+  <p class="kicker">Data engineering &middot; 6 min read</p>
+  <h1>Parquet vs Iceberg vs Hudi: picking a table format</h1>
+  <p class="lead">A folder of Parquet files works fine until someone needs to update a row, delete one, or write to the same table from two places at once. That's the point where most lakehouse designs bring in an open table format. This is a general look at what that means and how to choose between the common options.</p>
+  <p class="byline">By Ayush Kumar Singh, Data Engineer</p>
+
+  <h2>Why plain files alone aren't enough</h2>
+  <p>A data lake built from raw Parquet or CSV files is simple and cheap, and it works well as long as data only ever gets appended. The trouble starts once you need to change something that's already written. Updating one row usually means rewriting an entire file. Two processes writing to the same table at the same time can corrupt or overwrite each other's work. Readers can catch a table mid-write and see a half-finished state. Plain files were never designed to behave like a database table, because they have no shared record of what state the table is actually in.</p>
+
+  <h2>Enter the open table format</h2>
+  <p>An open table format sits on top of the same plain files and adds a metadata layer that tracks them as one consistent table. It keeps a record of exactly which files make up the table at any point in time, so readers always see a complete, consistent snapshot, even while writes are happening. It supports real updates and deletes without rewriting the whole table, changes to columns over time without breaking old data, and multiple writers working safely at once. Apache Iceberg and Apache Hudi are two popular implementations of this same idea, each making different trade-offs in how that metadata layer works.</p>
+
+  <h2>Apache Iceberg</h2>
+  <p>Iceberg tracks a table through a chain of snapshots. Each snapshot points to a manifest list, which points to manifest files, which list the actual data files for that version of the table. This layered structure is what makes features like time travel and rollback possible: querying an older snapshot is just a matter of following an earlier pointer.</p>
+  <p>Its main strength is being engine-agnostic. Spark, Trino, Flink and others can all read and write the same Iceberg table using the same metadata, so nobody is locked into one engine. It also handles schema evolution cleanly: renaming or adding columns doesn't force a rewrite of existing data. It's a strong fit for analytics-heavy tables that aren't updated too frequently, and for teams that already use more than one query engine.</p>
+
+  <h2>Apache Hudi</h2>
+  <p>Hudi is built around two table types. <strong>Copy-on-Write</strong> rewrites the affected data files immediately when a row changes, which keeps reads fast since there's nothing extra to merge at query time. <strong>Merge-on-Read</strong> instead writes changes to a separate log and merges them with the base files only when the table is read or compacted, which makes writes much cheaper at the cost of slightly slower reads until compaction catches up.</p>
+  <p>This design makes Hudi a strong fit for upsert-heavy, low-latency ingestion, such as streaming a continuous flow of inserts and updates from a CDC pipeline straight into the lake. It's less about serving many engines and more about handling a high rate of change efficiently.</p>
+
+  <h2>Comparing them</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Format</th><th>Write pattern</th><th>Read latency</th><th>Updates &amp; deletes</th><th>Best fit</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Plain Parquet</strong></td><td>Append-only</td><td>Fastest</td><td>Not supported without rewriting files</td><td>Append-only, analytics-only data</td></tr>
+        <tr><td><strong>Iceberg</strong></td><td>Batch or streaming, moderate change rate</td><td>Fast, consistent</td><td>Supported (MERGE)</td><td>Multi-engine analytics on slowly-changing data</td></tr>
+        <tr><td><strong>Hudi (CoW)</strong></td><td>Frequent upserts, batch-oriented</td><td>Fast</td><td>Supported, cost paid at write time</td><td>Upsert-heavy tables with fewer, larger writes</td></tr>
+        <tr><td><strong>Hudi (MoR)</strong></td><td>Continuous streaming upserts</td><td>Slower until compaction</td><td>Supported, cost deferred to read/compaction</td><td>High-frequency CDC-style ingestion</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>A simple decision guide</h2>
+  <div class="guide">
+    <div class="rule">Append-only data that's only ever read, never changed <span class="arrow">&rarr;</span> <b>plain Parquet.</b> Adding a table format buys you nothing here.</div>
+    <div class="rule">Frequent upserts arriving continuously, such as from a CDC pipeline <span class="arrow">&rarr;</span> <b>Hudi</b>, usually Merge-on-Read for the freshest writes.</div>
+    <div class="rule">Slowly-changing data queried by more than one engine <span class="arrow">&rarr;</span> <b>Iceberg</b>, for its clean multi-engine support and schema evolution.</div>
+    <div class="rule">Not sure yet <span class="arrow">&rarr;</span> start with plain Parquet, and move to a table format once updates, deletes or concurrent writers actually show up.</div>
+  </div>
+
+  <h2>Wrapping up</h2>
+  <p>There isn't a single best table format, only a best fit for how a table is written to and who reads it. Plain files are enough until change enters the picture. Once it does, Iceberg and Hudi solve the same underlying problem in different ways, and the right choice comes down to how often the data changes and how many engines need to read it.</p>
+
+  <div class="note"><p>This is a general, simplified overview of publicly documented technology. It doesn't describe any employer's internal systems.</p></div>
+</article>
+</main>
+<script>
+const root=document.documentElement, btn=document.getElementById('theme');
+let saved=null; try{saved=localStorage.getItem('theme');}catch(e){}
+function apply(d){root.setAttribute('data-theme',d?'dark':'light'); btn.innerHTML=d?'&#9728;':'&#9790;';}
+apply(saved?saved==='dark':matchMedia('(prefers-color-scheme: dark)').matches);
+btn.addEventListener('click',()=>{const d=root.getAttribute('data-theme')!=='dark'; apply(d); try{localStorage.setItem('theme',d?'dark':'light');}catch(e){}});
+</script>
+</body>
+</html>
